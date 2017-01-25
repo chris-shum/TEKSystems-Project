@@ -1,6 +1,7 @@
 package app.com.showme.android.verizon.models;
 
 import app.com.showme.android.verizon.models.photo_info.FlickrInfo;
+import app.com.showme.android.verizon.models.photo_search.Flickr;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;

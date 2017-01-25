@@ -6,7 +6,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import app.com.showme.android.verizon.R;
-import app.com.showme.android.verizon.models.Flickr;
+import app.com.showme.android.verizon.models.photo_search.Flickr;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

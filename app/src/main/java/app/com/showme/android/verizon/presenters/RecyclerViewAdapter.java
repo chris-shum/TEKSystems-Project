@@ -1,24 +1,16 @@
 package app.com.showme.android.verizon.presenters;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
-
-import java.io.Serializable;
 import java.util.List;
 
-import app.com.showme.android.verizon.DetailsActivity;
 import app.com.showme.android.verizon.R;
-import app.com.showme.android.verizon.models.Photo;
+import app.com.showme.android.verizon.models.photo_search.Photo;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -46,19 +38,20 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         String server = photoList.get(position).getServer();
         String id = photoList.get(position).getId();
         String secret = photoList.get(position).getSecret();
-        Picasso.with(holder.bwah.getContext()).load("https://farm" + farm + ".staticflickr.com/" + server + "/" + id + "_" + secret + ".jpg").into(holder.bwah);
-        holder.bwah.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), DetailsActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("wah", (Serializable) photoList.get(position));
-                intent.putExtras(bundle);
-                ActivityOptionsCompat options = ActivityOptionsCompat.
-                        makeSceneTransitionAnimation((Activity) view.getContext(), view, "waaaaaah");
-                view.getContext().startActivity(intent, options.toBundle());
-            }
-        });
+        holder.wooooop.setText(position);
+//        Picasso.with(holder.bwah.getContext()).load("https://farm" + farm + ".staticflickr.com/" + server + "/" + id + "_" + secret + ".jpg").into(holder.bwah);
+//        holder.bwah.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(view.getContext(), DetailsActivity.class);
+//                Bundle bundle = new Bundle();
+//                bundle.putSerializable("wah", (Serializable) photoList.get(position));
+//                intent.putExtras(bundle);
+//                ActivityOptionsCompat options = ActivityOptionsCompat.
+//                        makeSceneTransitionAnimation((Activity) view.getContext(), view, "waaaaaah");
+//                view.getContext().startActivity(intent, options.toBundle());
+//            }
+//        });
         Log.d("heya", "https://farm" + farm + ".staticflickr.com/" + server + "/" + id + "_" + secret + ".jpg");
     }
 
@@ -72,8 +65,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.uuuuuuugh)
-        ImageView bwah;
+//        @BindView(R.id.uuuuuuugh)
+//        ImageView bwah;
+        @BindView(R.id.argggggggh)
+        TextView wooooop;
 
         public ViewHolder(View itemView) {
             super(itemView);

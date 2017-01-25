@@ -1,5 +1,5 @@
 
-package app.com.showme.android.verizon.models;
+package app.com.showme.android.verizon.models.photo_search;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

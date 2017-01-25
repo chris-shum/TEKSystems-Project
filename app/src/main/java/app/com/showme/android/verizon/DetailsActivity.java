@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import app.com.showme.android.verizon.models.Photo;
+import app.com.showme.android.verizon.models.photo_search.Photo;
 import app.com.showme.android.verizon.models.photo_info.FlickrInfo;
 import app.com.showme.android.verizon.presenters.RetrofitFactory;
 import butterknife.BindView;
@@ -19,6 +19,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class DetailsActivity extends AppCompatActivity {
+
+    // TODO: 1/24/17 format details page with textview
+    // TODO: 1/24/17 figure out how to make the mini pop up
 
     @BindView(R.id.waaaahimage)
     ImageView boop;
