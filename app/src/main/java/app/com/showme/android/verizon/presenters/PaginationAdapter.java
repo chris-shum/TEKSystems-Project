@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
@@ -31,13 +30,11 @@ public class PaginationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     private static final int ITEM = 0;
     private static final int LOADING = 1;
-
-    private List<app.com.showme.android.verizon.models.photo_search.Photo> movies;
-
     private boolean isLoadingAdded = false;
+    private List<app.com.showme.android.verizon.models.photo_search.Photo> photoList;
 
     public PaginationAdapter() {
-        movies = new ArrayList<>();
+        photoList = new ArrayList<>();
     }
 
     @Override
@@ -61,35 +58,28 @@ public class PaginationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private RecyclerView.ViewHolder getViewHolder(ViewGroup parent, LayoutInflater inflater) {
         RecyclerView.ViewHolder viewHolder;
         View v1 = inflater.inflate(R.layout.flickr_card, parent, false);
-        viewHolder = new MovieVH(v1);
+        viewHolder = new PhotoVH(v1);
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
 
-        final app.com.showme.android.verizon.models.photo_search.Photo movie = movies.get(position);
+        final app.com.showme.android.verizon.models.photo_search.Photo photo = photoList.get(position);
 
         switch (getItemViewType(position)) {
             case ITEM:
-                MovieVH movieVH = (MovieVH) holder;
-
-                int farm = movie.getFarm();
-                String server = movie.getServer();
-                String id = movie.getId();
-                String secret = movie.getSecret();
-                movieVH.wooooop.setText(position+"");
-//                movieVH.textView.setText(movie.getTitle());
-                Picasso.with(movieVH.textView.getContext()).load("https://farm" + farm + ".staticflickr.com/" + server + "/" + id + "_" + secret + ".jpg").into(movieVH.textView);
-                movieVH.textView.setOnClickListener(new View.OnClickListener() {
+                PhotoVH photoVH = (PhotoVH) holder;
+                Picasso.with(photoVH.mCardImageView.getContext()).load(ImageGetter.getImage(photo)).into(photoVH.mCardImageView);
+                photoVH.mCardImageView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         Intent intent = new Intent(view.getContext(), DetailsActivity.class);
                         Bundle bundle = new Bundle();
-                        bundle.putSerializable("wah", (Serializable) movies.get(position));
+                        bundle.putSerializable("Photo", (Serializable) photoList.get(position));
                         intent.putExtras(bundle);
                         ActivityOptionsCompat options = ActivityOptionsCompat.
-                                makeSceneTransitionAnimation((Activity) view.getContext(), view, "waaaaaah");
+                                makeSceneTransitionAnimation((Activity) view.getContext(), view, view.getContext().getResources().getString(R.string.transition));
                         view.getContext().startActivity(intent, options.toBundle());
                     }
                 });
@@ -104,12 +94,12 @@ public class PaginationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @Override
     public int getItemCount() {
-        return movies == null ? 0 : movies.size();
+        return photoList == null ? 0 : photoList.size();
     }
 
     @Override
     public int getItemViewType(int position) {
-        return (position == movies.size() - 1 && isLoadingAdded) ? LOADING : ITEM;
+        return (position == photoList.size() - 1 && isLoadingAdded) ? LOADING : ITEM;
     }
 
     /*
@@ -118,8 +108,8 @@ public class PaginationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     */
 
     public void add(app.com.showme.android.verizon.models.photo_search.Photo mc) {
-        movies.add(mc);
-        notifyItemInserted(movies.size() - 1);
+        photoList.add(mc);
+        notifyItemInserted(photoList.size() - 1);
     }
 
     public void addAll(List<app.com.showme.android.verizon.models.photo_search.Photo> mcList) {
@@ -129,9 +119,9 @@ public class PaginationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
     public void remove(app.com.showme.android.verizon.models.photo_search.Photo city) {
-        int position = movies.indexOf(city);
+        int position = photoList.indexOf(city);
         if (position > -1) {
-            movies.remove(position);
+            photoList.remove(position);
             notifyItemRemoved(position);
         }
     }
@@ -156,17 +146,17 @@ public class PaginationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public void removeLoadingFooter() {
         isLoadingAdded = false;
 
-        int position = movies.size() - 1;
+        int position = photoList.size() - 1;
         app.com.showme.android.verizon.models.photo_search.Photo item = getItem(position);
 
         if (item != null) {
-            movies.remove(position);
+            photoList.remove(position);
             notifyItemRemoved(position);
         }
     }
 
     public app.com.showme.android.verizon.models.photo_search.Photo getItem(int position) {
-        return movies.get(position);
+        return photoList.get(position);
     }
 
 
@@ -178,16 +168,13 @@ public class PaginationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     /**
      * Main list's content ViewHolder
      */
-    protected class MovieVH extends RecyclerView.ViewHolder {
-        private ImageView textView;
-        @BindView(R.id.argggggggh)
-        TextView wooooop;
+    protected class PhotoVH extends RecyclerView.ViewHolder {
+        @BindView(R.id.card_imageview)
+        ImageView mCardImageView;
 
-        public MovieVH(View itemView) {
+        public PhotoVH(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-
-            textView = (ImageView) itemView.findViewById(R.id.uuuuuuugh);
         }
     }
 

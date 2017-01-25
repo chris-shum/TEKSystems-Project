@@ -11,14 +11,29 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="app.com.showme.android.verizon.DetailsActivity">
 
+    <TextView
+        android:id="@+id/details_author"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
     <ImageView
-        android:id="@+id/waaaahimage"
-        android:transitionName="waaaaaah"
+        android:id="@+id/details_imageview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:transitionName="@string/transition" />
+
+    <TextView
+        android:id="@+id/details_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <TextView
-        android:id="@+id/hmmmmmmtextview"
+        android:id="@+id/details_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/details_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 

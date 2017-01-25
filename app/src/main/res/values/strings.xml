@@ -8,6 +8,8 @@
     <string name="format">json</string>
     <string name="page">1</string>
 
+    <string name="transition">intent_transition</string>
+
 
 
 
