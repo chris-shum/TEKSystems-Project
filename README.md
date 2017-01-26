@@ -2,7 +2,7 @@
 ##Image Search
 ###Overview:
 
-Verizon app built based on <a href="https://github.com/chris-shum/Verizon-Project/blob/master/Android%20Exercise.pdf">this wireframe</a>.
+App built based on <a href="https://github.com/chris-shum/Verizon-Project/blob/master/Android%20Exercise.pdf">this wireframe</a>.
 
 ###Requirements:
 - Grabs images from known API and displays them in a gridview
