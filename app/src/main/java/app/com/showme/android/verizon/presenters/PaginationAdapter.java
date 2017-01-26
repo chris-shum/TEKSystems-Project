@@ -5,12 +5,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.util.Pair;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.github.florent37.picassopalette.PicassoPalette;
 import com.squareup.picasso.Picasso;
 
 import java.io.Serializable;
@@ -69,21 +72,28 @@ public class PaginationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         switch (getItemViewType(position)) {
             case ITEM:
-                PhotoVH photoVH = (PhotoVH) holder;
-                Picasso.with(photoVH.mCardImageView.getContext()).load(ImageGetter.getImage(photo)).into(photoVH.mCardImageView);
-                photoVH.mCardImageView.setOnClickListener(new View.OnClickListener() {
+                final PhotoVH photoVH = (PhotoVH) holder;
+
+                Picasso.with(photoVH.mCardImageView.getContext()).load(ImageGetter.getImage(photo)).placeholder(R.drawable.placeholder).into(photoVH.mCardImageView,
+                        PicassoPalette.with(ImageGetter.getImage(photo), photoVH.mCardImageView)
+                                .use(PicassoPalette.Profile.MUTED)
+                                .intoBackground(photoVH.mCardImageView)
+                                .use(PicassoPalette.Profile.VIBRANT)
+                );
+                photoVH.mCardView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         Intent intent = new Intent(view.getContext(), DetailsActivity.class);
                         Bundle bundle = new Bundle();
                         bundle.putSerializable("Photo", (Serializable) photoList.get(position));
                         intent.putExtras(bundle);
+
+                        Pair<View, String> p1 = Pair.create((View) photoVH.mCardImageView, view.getContext().getResources().getString(R.string.transition));
                         ActivityOptionsCompat options = ActivityOptionsCompat.
-                                makeSceneTransitionAnimation((Activity) view.getContext(), view, view.getContext().getResources().getString(R.string.transition));
+                                makeSceneTransitionAnimation((Activity) view.getContext(), p1);
                         view.getContext().startActivity(intent, options.toBundle());
                     }
                 });
-
                 break;
             case LOADING:
 //                Do nothing
@@ -171,6 +181,8 @@ public class PaginationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     protected class PhotoVH extends RecyclerView.ViewHolder {
         @BindView(R.id.card_imageview)
         ImageView mCardImageView;
+        @BindView(R.id.card_cardView)
+        CardView mCardView;
 
         public PhotoVH(View itemView) {
             super(itemView);

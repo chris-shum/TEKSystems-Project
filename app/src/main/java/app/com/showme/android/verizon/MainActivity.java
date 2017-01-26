@@ -4,14 +4,17 @@ import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import app.com.showme.android.verizon.models.photo_search.Flickr;
@@ -26,17 +29,16 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
-    // TODO: 1/24/17 clean
-    // TODO: 1/24/17 internet check?
-    // TODO: 1/24/17 change colors to Verizon red
-
     private static final String TAG = "MainActivity";
 
     @BindView(R.id.main_recyclerview)
     RecyclerView mRecyclerView;
     @BindView(R.id.main_progressbar)
     ProgressBar mProgressBar;
-    LinearLayoutManager mLinearLayoutManager;
+    @BindView(R.id.logo)
+    ImageView mLogo;
+    GridLayoutManager mGridLayoutManager;
+    StaggeredGridLayoutManager mStaggeredGridLayoutManager;
     PaginationAdapter mPaginationAdapter;
     private static final int PAGE_START = 1;
     private boolean isLoading = false;
@@ -55,12 +57,14 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         mQuery = "";
-        mLinearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        mRecyclerView.setLayoutManager(mLinearLayoutManager);
+        mStaggeredGridLayoutManager = new StaggeredGridLayoutManager(3, 1);
+        mGridLayoutManager = new GridLayoutManager(this, 3, LinearLayoutManager.VERTICAL, false);
+        mRecyclerView.setLayoutManager(mStaggeredGridLayoutManager);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mPaginationAdapter = new PaginationAdapter();
         mRecyclerView.setAdapter(mPaginationAdapter);
-        mRecyclerView.addOnScrollListener(new PaginationScrollListener(mLinearLayoutManager) {
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.addOnScrollListener(new PaginationScrollListener(mStaggeredGridLayoutManager) {
             @Override
             protected void loadMoreItems() {
                 isLoading = true;
@@ -109,6 +113,8 @@ public class MainActivity extends AppCompatActivity {
                 mPaginationAdapter.clear();
                 mQuery = query;
                 currentPage = 1;
+                mLogo.setVisibility(View.GONE);
+                mProgressBar.setVisibility(View.VISIBLE);
                 getFlickr(query);
                 return false;
             }
@@ -130,6 +136,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<Flickr> call, Response<Flickr> response) {
                         mPaginationAdapter.addAll(response.body().getPhotos().getPhoto());
+                        mProgressBar.setVisibility(View.GONE);
                     }
 
                     @Override

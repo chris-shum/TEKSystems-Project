@@ -9,6 +9,7 @@
     <string name="page">1</string>
 
     <string name="transition">intent_transition</string>
+    <string name="transition_card">intent_transition_card</string>
 
 
 

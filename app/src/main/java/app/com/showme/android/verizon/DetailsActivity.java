@@ -3,10 +3,12 @@ package app.com.showme.android.verizon;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.github.florent37.picassopalette.PicassoPalette;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
@@ -25,21 +27,16 @@ import retrofit2.Response;
 
 public class DetailsActivity extends AppCompatActivity {
 
-    // TODO: 1/24/17 format details page with textview
-    // TODO: 1/24/17 figure out how to make the mini pop up
-
     private static final String TAG = "DetailsActivity";
 
     @BindView(R.id.details_imageview)
     ImageView mImageView;
-    @BindView(R.id.details_title)
-    TextView mTitleTextView;
     @BindView(R.id.details_author)
     TextView mAuthorTextView;
     @BindView(R.id.details_date)
     TextView mDateTextView;
-    @BindView(R.id.details_description)
-    TextView mDescriptionTextView;
+    @BindView(R.id.details_cardView)
+    CardView mDetailsCardView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,9 +48,14 @@ public class DetailsActivity extends AppCompatActivity {
         Bundle bundle = intent.getExtras();
         Photo photo = (Photo) bundle.getSerializable("Photo");
 
-        Picasso.with(this).load(ImageGetter.getImage(photo)).into(mImageView);
         getPhotoInfo(photo.getId());
-        mTitleTextView.setText(photo.getTitle());
+
+        Picasso.with(this).load(ImageGetter.getImage(photo)).into(mImageView,
+                PicassoPalette.with(ImageGetter.getImage(photo), mImageView)
+                        .use(PicassoPalette.Profile.MUTED).intoBackground(mDetailsCardView)
+                        .use(PicassoPalette.Profile.VIBRANT_LIGHT).intoTextColor(mAuthorTextView, PicassoPalette.Swatch.TITLE_TEXT_COLOR)
+                        .use(PicassoPalette.Profile.VIBRANT_LIGHT).intoTextColor(mDateTextView, PicassoPalette.Swatch.TITLE_TEXT_COLOR)
+        );
     }
 
     public void getPhotoInfo(String photoID) {
@@ -67,13 +69,12 @@ public class DetailsActivity extends AppCompatActivity {
                         mAuthorTextView.setText(response.body().getPhoto().getOwner().getUsername());
 
                         long unixSeconds = Long.valueOf(response.body().getPhoto().getDates().getPosted());
-                        Date date = new Date(unixSeconds*1000L); // *1000 is to convert seconds to milliseconds
+                        Date date = new Date(unixSeconds * 1000L); // *1000 is to convert seconds to milliseconds
                         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); // the format of your date
                         sdf.setTimeZone(TimeZone.getTimeZone("GMT")); // give a timezone reference for formating (see comment at the bottom
                         String formattedDate = sdf.format(date);
 
                         mDateTextView.setText(formattedDate);
-                        mDescriptionTextView.setText(response.body().getPhoto().getDescription().getContent());
                     }
 
                     @Override
