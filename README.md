@@ -8,6 +8,9 @@ Verizon app built based on <a href="https://github.com/chris-shum/Verizon-Projec
 - Grabs images from known API and displays them in a gridview
 - Allows users to click on image to see larger version and display details of images
 
+###API used:
+- <a href = "https://www.flickr.com/services/api/">Flickr</a>
+
 ###Libraries used:
 - <a href = "https://square.github.io/retrofit/">Retrofit</a>
 - <a href = "http://jakewharton.github.io/butterknife/">Butter Knife</a>
