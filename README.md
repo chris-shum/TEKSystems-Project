@@ -18,9 +18,8 @@ Verizon app built based on <a href="https://github.com/chris-shum/Verizon-Projec
 - <a href = "https://github.com/florent37/PicassoPalette">Picasso Palette</a>
  
 ###Video:
-<a href = "https://youtu.be/T26-UVpa0s8">YouTube</a>
+<a href = "https://youtu.be/CFGlZ7S66ig">YouTube</a>
 
 ###Screenshots:
  <img src="1.png" width="200">
  <img src="2.png" width="200">
- <img src="3.png" width="200">
