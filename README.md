@@ -1,5 +1,5 @@
-#Verizon-Project
-##Verizon Image Search
+#TEKSystems-Project
+##Image Search
 ###Overview:
 
 Verizon app built based on <a href="https://github.com/chris-shum/Verizon-Project/blob/master/Android%20Exercise.pdf">this wireframe</a>.
