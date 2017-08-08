@@ -21,5 +21,4 @@ App built based on <a href="https://github.com/chris-shum/Verizon-Project/blob/m
 <a href = "https://youtu.be/CFGlZ7S66ig">YouTube</a>
 
 ### Screenshots:
- <img src="1.png" width="200">
- <img src="2.png" width="200">
+ <img src="1.png" width="200"><img src="2.png" width="200">
